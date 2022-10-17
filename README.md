@@ -2,7 +2,6 @@
 ### Authentication service
 ---
  - [Public] Login de usuario
- - [Public] Cadastro de usuario
  - [Public] Alteração de senha
  - [Public] Criar uma conta
  - [Admin] Listar usuários
