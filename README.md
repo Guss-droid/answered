@@ -18,3 +18,4 @@
 - [Auth] Pesquisar uma pergunta
 - [Auth] Marcar uma pergunta como concluida
 - [Auth] Editar uma pergunta
+- [Auth] Deletar uma pergunta
