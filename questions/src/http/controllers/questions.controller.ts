@@ -18,6 +18,10 @@ interface ICreateQuestion {
   categoriesId: string;
 }
 
+interface ISearchByCategory {
+  categoriesId: string;
+}
+
 @Controller('questions')
 export class QuestionsController {
   constructor(
@@ -111,5 +115,17 @@ export class QuestionsController {
   @UseGuards(AuthorizationGuard)
   async getPageQuestionById(@Param('id') id: string) {
     return await this.questionsService.getQuestionById(id);
+  }
+
+  @Post('/categories')
+  @UseGuards(AuthorizationGuard)
+  async searchByCategory(@Body() { categoriesId }: ISearchByCategory) {
+    if (!categoriesId) {
+      throw new Error('Select a category!');
+    }
+
+    return await this.questionsService.searchQuestionByCategory({
+      categoriesId,
+    });
   }
 }

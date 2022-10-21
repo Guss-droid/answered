@@ -4,7 +4,7 @@ import { verify } from 'jsonwebtoken';
 export interface IAuthUser {
   sub: string;
   email: string;
-  isAdmin?: boolean;
+  isAdmin: boolean;
 }
 
 export const CurrentUser = createParamDecorator(
@@ -15,6 +15,10 @@ export const CurrentUser = createParamDecorator(
 
     const payload = verify(token, process.env.TOKEN_SECRET);
 
-    return { sub: payload.data.sub, email: payload.data.email };
+    return {
+      sub: payload.data.sub,
+      email: payload.data.email,
+      isAdmin: payload.data.isAdmin,
+    };
   },
 );

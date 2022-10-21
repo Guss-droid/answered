@@ -26,4 +26,12 @@ export class CategoriesService {
       },
     });
   }
+
+  async allCategories() {
+    return await this.prisma.categories.findMany({
+      orderBy: {
+        category: 'asc',
+      },
+    });
+  }
 }
