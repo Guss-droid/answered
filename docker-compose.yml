@@ -1,19 +1,17 @@
 version: "3"
 
 services:
-  database:
-    image: postgres
-    container_name: answered_database
-    restart: always
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=${USERNAME_DATABASE}
-      - POSTGRES_PASSWORD=${PASSWORD_DATABASE}
-      - POSTGRES_DB=app
-    volumes:
-      - pgdata:/data/postgres
+  database: 
+    image: "bitnami/postgresql"
+    ports: 
+    - "5432:5432"
+    environment: 
+    - POSTGRESQL_USERNAME=docker
+    - POSTGRESQL_PASSWORD=docker
+    - POSTGRESQL_DATABASE=app
+    volumes: 
+    - "postgresql_data:/bitnami/postgresql"
 
 volumes: 
-  pgdata: 
+  postgresql_data: 
     driver: local

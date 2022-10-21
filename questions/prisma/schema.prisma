@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id    String @id @default(uuid())
+  email String @unique
+
+  questions      Question[]
+  answers        Answers[]
+  savedQuestions SavedQuestions[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Question {
+  id       String @id @default(uuid())
+  question String
+
+  isEdited Boolean   @default(false)
+  editedAt DateTime?
+
+  savedQuestions SavedQuestions[]
+  answers        Answers[]
+
+  categories   Categories? @relation(fields: [categoriesId], references: [id])
+  categoriesId String?
+
+  concludedAt DateTime?
+  isConcluded Boolean   @default(false)
+
+  customers     Customer @relation(fields: [customerEmail], references: [email])
+  customerEmail String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Answers {
+  id     String @id @default(uuid())
+  answer String
+
+  question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+
+  customers     Customer? @relation(fields: [customerEmail], references: [email])
+  customerEmail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SavedQuestions {
+  id String @id @default(uuid())
+
+  customers     Customer @relation(fields: [customerEmail], references: [email])
+  customerEmail String
+
+  question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Categories {
+  id       String @id @default(uuid())
+  category String @unique
+
+  questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
