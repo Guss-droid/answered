@@ -72,6 +72,7 @@ export class UsersService {
         data: {
           sub: userExists.id,
           email: userExists.email,
+          isAdmin: userExists.isAdmin,
         },
       },
       process.env.TOKEN_SECRET,
@@ -125,13 +126,13 @@ export class UsersService {
         createdAt: 'desc',
       },
       select: {
-        createdAt: true,
-        email: true,
         id: true,
-        isAdmin: true,
         name: true,
-        updatedAt: true,
+        email: true,
+        isAdmin: true,
         password: false,
+        updatedAt: true,
+        createdAt: true,
       },
     });
   }
