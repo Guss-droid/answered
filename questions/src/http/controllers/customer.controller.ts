@@ -30,4 +30,16 @@ export class CustomerController {
 
     return this.customersService.getAllMyAnswers(customer.email);
   }
+
+  @Get('/me')
+  @UseGuards(AuthorizationGuard)
+  async me(@CurrentUser() user: IAuthUser) {
+    let customer = await this.customersService.getCustomerByEmail(user.email);
+
+    if (!customer) {
+      customer = await this.customersService.createCustomer(user.email);
+    }
+
+    return this.customersService.me(customer.email);
+  }
 }

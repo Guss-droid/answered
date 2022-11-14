@@ -106,8 +106,11 @@ export class QuestionsService {
       select: {
         id: true,
         question: true,
+        countLike: true,
         customerEmail: true,
         categoriesId: true,
+        categories: true,
+        likedBy: true,
         answers: true,
         isConcluded: true,
         concludedAt: true,
@@ -262,6 +265,7 @@ export class QuestionsService {
       select: {
         id: true,
         question: true,
+        countLike: true,
         customerEmail: true,
         answers: true,
         categoriesId: true,

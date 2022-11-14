@@ -81,4 +81,20 @@ export class CustomersService {
       },
     });
   }
+
+  async me(email: string) {
+    return await this.prisma.customer.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        email: true,
+        answers: true,
+        questions: true,
+        likesCustomer: true,
+        savedQuestions: true,
+      },
+    });
+  }
 }

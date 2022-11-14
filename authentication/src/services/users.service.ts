@@ -78,7 +78,14 @@ export class UsersService {
       process.env.TOKEN_SECRET,
     );
 
-    return { token: token };
+    return {
+      token: token,
+      user: {
+        name: userExists.name,
+        email: userExists.email,
+        isAdmin: userExists.isAdmin,
+      },
+    };
   }
 
   async changePassword({ password, id }: IChangePassword) {
@@ -124,6 +131,40 @@ export class UsersService {
     return await this.prisma.user.findMany({
       orderBy: {
         createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        isAdmin: true,
+        password: false,
+        updatedAt: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  async getUserByEmail(email: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        isAdmin: true,
+        password: false,
+        updatedAt: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  async profile(email: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email,
       },
       select: {
         id: true,

@@ -1,4 +1,14 @@
-import { Body, Controller, Post, UseGuards, Put, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Put,
+  Get,
+  UseInterceptors,
+} from '@nestjs/common';
+import { UploadedFile } from '@nestjs/common/decorators';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from 'src/services/users.service';
 import { AuthorizationGuard } from '../auth/authorization.guard';
 import { CurrentUser, IAuthUser } from '../auth/currentUser';
@@ -12,6 +22,10 @@ interface IUser {
 interface ILogin {
   email: string;
   password: string;
+}
+
+interface IEmail {
+  email: string;
 }
 
 interface IChangePassword {
@@ -61,4 +75,22 @@ export class UsersControllers {
   listAllUsers(@CurrentUser() user: IAuthUser) {
     return this.usersService.listAllUsers({ id: user.sub });
   }
+
+  @Post('user/email')
+  @UseGuards(AuthorizationGuard)
+  async getByEmail(@Body() { email }: IEmail) {
+    return await this.usersService.getUserByEmail(email);
+  }
+
+  @Get('profile')
+  @UseGuards(AuthorizationGuard)
+  async getProfile(@CurrentUser() user: IAuthUser) {
+    return await this.usersService.profile(user.email);
+  }
+
+  // @Post('upload/img')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  //   console.log(file);
+  // }
 }

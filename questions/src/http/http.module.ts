@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from 'src/database/database.module';
 
+import { LikesService } from 'src/services/likes.service';
+import { LikesController } from './controllers/likes.controller';
+
 import { AnswersService } from 'src/services/answers.service';
 import { AnswersController } from './controllers/answers.controller';
 
@@ -20,6 +23,7 @@ import { SavedQuestionsController } from './controllers/savedQuestions.controlle
 @Module({
   imports: [ConfigModule.forRoot(), DatabaseModule],
   providers: [
+    LikesService,
     AnswersService,
     CustomersService,
     QuestionsService,
@@ -27,6 +31,7 @@ import { SavedQuestionsController } from './controllers/savedQuestions.controlle
     SavedQuestionsService,
   ],
   controllers: [
+    LikesController,
     AnswersController,
     CustomerController,
     QuestionsController,
